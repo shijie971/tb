@@ -1,0 +1,42 @@
+server:
+  servlet:
+    session:
+      timeout: 7200
+  port: 8089
+spring:
+  datasource:
+    #使用druid连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 主库数据源(读)
+      master:
+          url: jdbc:mysql://127.0.0.1:3306/xfdb?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false
+          username: root
+          password: root123
+          driver-class-name: com.mysql.jdbc.Driver
+      # 从库数据源(写)
+      slave1:
+          url: jdbc:mysql://127.0.0.1:3306/xfdb?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false
+          username: root
+          password: root123
+          driver-class-name: com.mysql.jdbc.Driver
+      maxActive: 20
+      # 初始连接数
+      initial-size: 10
+      # 最大连接池数量
+      max-active: 100
+      # 最小连接池数量
+      min-idle: 10
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+mybatis:
+  mapper-locations: classpath:mybatis.mapper/*.xml
+  type-aliases-package: com.tongbu.datasources.model/.*
+  configuration:
+    call-setters-on-nulls: true
+    return-instance-for-empty-row: true
+logging:
+  level:
+    com.example.datasources.mapper: DEBUG
+    #cron表达式指定任务调度频率
+cron.msg: 0 */50 * * * ?
