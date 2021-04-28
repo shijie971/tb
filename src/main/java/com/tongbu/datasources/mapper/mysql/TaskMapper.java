@@ -1,4 +1,4 @@
-package com.tongbu.datasources.mapper;
+package com.tongbu.datasources.mapper.mysql;
 
 import com.tongbu.datasources.model.Task;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,5 +16,5 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface TaskMapper extends tk.mybatis.mapper.common.Mapper<Task> {
 
-    Task findTask(@Param("content") String content);
+    Task findTask(@Param("title") String title);
 }

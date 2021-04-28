@@ -1,5 +1,8 @@
 package com.tongbu.datasources.service;
 
+import com.tongbu.config.DataSourceKey;
+import com.tongbu.config.TargetDataSource;
+import com.tongbu.datasources.mapper.mysql.TaskMapper;
 import com.tongbu.datasources.model.Task;
 import org.springframework.stereotype.Service;
 
@@ -14,4 +17,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TaskService extends BaseService<Task>{
+
+    @TargetDataSource(value = DataSourceKey.slave1)
+    public Task findTask(String rwmc) {
+        return ((TaskMapper) mapper).findTask(rwmc);
+    }
+
+
+    @TargetDataSource(value = DataSourceKey.slave1)
+    public Integer updateRecord(Task task) {
+        return mapper.updateByPrimaryKeySelective(task);
+    }
 }

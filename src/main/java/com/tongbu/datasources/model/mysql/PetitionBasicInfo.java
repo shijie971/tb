@@ -3,7 +3,6 @@ package com.tongbu.datasources.model.mysql;
 import lombok.Data;
 
 import javax.persistence.Id;
-import java.util.Date;
 
 /**
  * @Title: PetitionBasicInfo
@@ -17,10 +16,10 @@ import java.util.Date;
 @Data
 public class PetitionBasicInfo {
     @Id
-    private String oid;
+    private Integer oid;
     private String petitionNo;
     private String regionCode;
-    private String regionNAME;
+    private String regionName;
     private String petitionSeqNo;
     private String petitionPrtNo;
 }

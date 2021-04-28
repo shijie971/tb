@@ -1,4 +1,4 @@
-package com.tongbu.datasources.mapper;
+package com.tongbu.datasources.mapper.db;
 
 import com.tongbu.datasources.model.db.Petition_Basic_Info;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,7 +15,7 @@ import java.util.List;
  * @Version: 1.0.0
  */
 @Mapper
-public interface PetitionBasicInfoMapper {
+public interface DBPetitionBasicInfoMapper {
 
     Integer findRecordCount();
 

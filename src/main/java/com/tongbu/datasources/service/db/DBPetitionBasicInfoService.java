@@ -2,7 +2,7 @@ package com.tongbu.datasources.service.db;
 
 import com.tongbu.config.DataSourceKey;
 import com.tongbu.config.TargetDataSource;
-import com.tongbu.datasources.mapper.PetitionBasicInfoMapper;
+import com.tongbu.datasources.mapper.db.DBPetitionBasicInfoMapper;
 import com.tongbu.datasources.model.db.Petition_Basic_Info;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class DBPetitionBasicInfoService {
     @Autowired
-    private PetitionBasicInfoMapper mapper;
+    private DBPetitionBasicInfoMapper mapper;
 
 
     @TargetDataSource(value = DataSourceKey.master)

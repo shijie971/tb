@@ -10,9 +10,9 @@ spring:
     druid:
       # 主库数据源(读)
       master:
-          url: jdbc:mysql://127.0.0.1:3306/xfdb?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false
-          username: root
-          password: root123
+          url: jdbc:mysql://112.80.57.226:10300/jjjb?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false
+          username: jjjb
+          password: 123456
           driver-class-name: com.mysql.jdbc.Driver
       # 从库数据源(写)
       slave1:
@@ -39,4 +39,4 @@ logging:
   level:
     com.example.datasources.mapper: DEBUG
     #cron表达式指定任务调度频率
-cron.msg: 0 */50 * * * ?
+cron.msg: 0 */1 * * * ?

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tongbu.datasources.mapper.TaskMapper" >
+<mapper namespace="com.tongbu.datasources.mapper.mysql.TaskMapper" >
 
     <sql id="Base_Column_List">
         id,title,content,status,time
     </sql>
 
     <select id="findTask" resultType="com.tongbu.datasources.model.Task">
-        SELECT <include refid="Base_Column_List"></include> FROM task WHERE content = #{content} AND status = '1'
+        SELECT <include refid="Base_Column_List"></include> FROM task WHERE title = #{title} AND status = '1'
     </select>
 </mapper>

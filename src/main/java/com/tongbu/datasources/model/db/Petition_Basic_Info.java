@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @Data
 public class Petition_Basic_Info {
-    private String OID;
+    private String id;
     private String PETITION_NO;
     private String REGION_CODE;
     private String REGION_NAME;
