@@ -25,12 +25,12 @@ public class DBPetitionBasicInfoService {
 
 
     @TargetDataSource(value = DataSourceKey.master)
-    public Integer findRecordCount(){
-        return mapper.findRecordCount();
+    public Integer findRecordCount(String dateTime){
+        return mapper.findRecordCount(dateTime);
     }
 
     @TargetDataSource(value = DataSourceKey.master)
-    public List<Petition_Basic_Info> findRecordDetails(){
-        return mapper.findRecordDetails();
+    public List<Petition_Basic_Info> findRecordDetails(String dateTime,Integer pageStart,Integer pageEnd){
+        return mapper.findRecordDetails(dateTime, pageStart, pageEnd);
     }
 }

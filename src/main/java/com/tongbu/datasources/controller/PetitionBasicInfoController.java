@@ -55,6 +55,7 @@ public class PetitionBasicInfoController {
             Task task = taskService.findTask("petition_basic_info");
             if(task == null || "0".equals(task.getStatus())){
                 logger.info("未查询到定时任务或者定时任务未开启");
+                return;
             }else {
                 int row = 0;
                 Date nowTime = new Date();
@@ -63,15 +64,19 @@ public class PetitionBasicInfoController {
                     date = DateUtil.getDateYMDHMSS(task.getTime());
                 }
                 // 获取读数据源同步数据总数
-                Integer count = dbPetitionBasicInfoService.findRecordCount();
+                Integer count = dbPetitionBasicInfoService.findRecordCount(date);
                 if(count == 0){
                     // 更新定时任务同步时间戳
                     task.setTime(nowTime);
                     taskService.updateRecord(task);
                     return;
                 }
-                for (int i = 0; i < count; i += LIMIT) {
-                    List<Petition_Basic_Info> list = dbPetitionBasicInfoService.findRecordDetails();
+                int pageSize = LIMIT;
+                int pageNum = count % pageSize == 0 ? count / pageSize : count / pageSize + 1;
+                for (int i = 0; i < pageNum; i += LIMIT) {
+                    int pageStart = i * pageSize;
+                    int pageEnd = (i + 1) * pageSize;
+                    List<Petition_Basic_Info> list = dbPetitionBasicInfoService.findRecordDetails(date,pageStart,pageEnd);
                     for(Petition_Basic_Info data : list){
                         row += petitionBasicInfoService.insertOrUpdate(data);
                     }

@@ -2,6 +2,7 @@ package com.tongbu.datasources.mapper.db;
 
 import com.tongbu.datasources.model.db.Petition_Basic_Info;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,7 +18,8 @@ import java.util.List;
 @Mapper
 public interface DBPetitionBasicInfoMapper {
 
-    Integer findRecordCount();
+    Integer findRecordCount(@Param("dateTime")String dateTime);
 
-    List<Petition_Basic_Info> findRecordDetails();
+    List<Petition_Basic_Info> findRecordDetails(@Param("dateTime")String dateTime,@Param("pageStart") Integer pageStart,
+                                                @Param("pageEnd") Integer pageEnd);
 }

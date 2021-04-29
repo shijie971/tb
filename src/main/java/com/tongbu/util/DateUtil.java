@@ -14,6 +14,6 @@ import java.util.Date;
  */
 public class DateUtil {
     public static String getDateYMDHMSS(Date date) {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(date);
+        return new SimpleDateFormat("yyyy-MM-dd").format(date);
     }
 }

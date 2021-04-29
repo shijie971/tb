@@ -4,10 +4,17 @@
 
         <!--查询总记录数-->
         <select id="findRecordCount" resultType="java.lang.Integer">
-            SELECT COUNT(1) FROM petition_basic_info
+            SELECT COUNT(1) FROM petition_basic_info WHERE to_char(MODIFY_DATE,'yyyy-MM-dd') >= #{dateTime}
         </select>
         <!--查询详情-->
         <select id="findRecordDetails" resultType="com.tongbu.datasources.model.db.Petition_Basic_Info">
-            SELECT * FROM petition_basic_info
+            SELECT * FROM (
+                SELECT
+                    OID,PETITION_NO,PETITION_DATE,PETITION_TYPE_NAME,PETITION_SOURCE_NAME,PETITION_CLASS_NAME,
+                    ISSUE_REGION_CODE,SUB_ISSUE_REGION_CODE,SUB_ISSUE_REGION_NAME,DEAL_TYPE_NAME,FIRST_ACCUSER,
+                    FIRST_ACCUSED,REPEAT_FLAG,AGENT_PERSON_NAME,END_FLAG,ARCHIVE_FLAG,MODIFY_DATE,CREATE_DATE
+                    rownumber() over (ORDER BY PETITION_NO) AS rn FROM petition_basic_info
+                    WHERE to_char(MODIFY_DATE,'yyyy-MM-dd') >= #{dateTime}
+            ) AS b WHERE b.rn >= #{pageStart} AND b.rn &lt;= #{pageEnd}
         </select>
 </mapper>
