@@ -2,6 +2,8 @@ package com.tongbu.datasources.model.db;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @Title: Petition_Accused_Info
  * @Package: com.tongbu.datasources.model.db
@@ -22,5 +24,5 @@ public class Petition_Accused_Info {
     private String ACCUSED_WORK_TYPE_NAME;
     private String ACCUSED_TEL_ONE;
     private String ACCUSED_REGION_NAME;
-
+    private Date CREATE_DATE;
 }

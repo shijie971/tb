@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * @Title: PetitionAccusedInfo
@@ -27,4 +28,5 @@ public class PetitionAccusedInfo {
     private String AccusedWorkTypeName;
     private String AccusedTelOne;
     private String AccusedRegionName;
+    private Date CreateDate;
 }

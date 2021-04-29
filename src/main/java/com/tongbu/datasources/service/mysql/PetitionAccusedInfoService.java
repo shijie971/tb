@@ -31,6 +31,7 @@ public class PetitionAccusedInfoService extends BaseService<PetitionAccusedInfo>
         info.setAccusedWorkUnit(data.getACCUSED_WORK_UNIT());
         info.setAccusedTelOne(data.getACCUSED_TEL_ONE());
         info.setAccusedRegionName(data.getACCUSED_REGION_NAME());
+        info.setCreateDate(data.getCREATE_DATE());
         int i = mapper.updateByPrimaryKeySelective(info);
         if(i < 1){
             return mapper.insertSelective(info);

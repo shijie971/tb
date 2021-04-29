@@ -17,13 +17,14 @@
         SELECT * FROM (
             SELECT
                 rownumber() over (order by CREATE_DATE) as rn,
-                OID,PETITION_NO,ACCUSER_ANONYMOUS_FLAG,
-                ACCUSER_CARD_ID,ACCUSER_NAME,ACCUSER_TEL_ONE,ACCUSER_WORK_UNIT,
-                CREATE_DATE FROM(
-                    SELECT rownumber() over (partition by PETITION_NO order by CREATE_DATE DESC) as yy,
-                    OID,PETITION_NO,ACCUSER_ANONYMOUS_FLAG,
-                    ACCUSER_CARD_ID,ACCUSER_NAME,ACCUSER_TEL_ONE,ACCUSER_WORK_UNIT,
-                    CREATE_DATE FROM petition_accused_info WHERE to_char(CREATE_DATE,'yyyy-MM-dd') >= #{dateTime}
+                PETITION_NO,OID,ACCUSED_NAME,ACCUSED_POSITION_NAME,
+                    ACCUSED_CLASS_NAME,ACCUSED_WORK_UNIT,ACCUSED_WORK_TYPE_NAME,
+                    ACCUSED_TEL_ONE,ACCUSED_REGION_NAME,CREATE_DATE FROM (
+                        SELECT rownumber() over (partition by PETITION_NO order by CREATE_DATE DESC) as yy,
+                        PETITION_NO,OID,ACCUSED_NAME,ACCUSED_POSITION_NAME,
+                        ACCUSED_CLASS_NAME,ACCUSED_WORK_UNIT,ACCUSED_WORK_TYPE_NAME,
+                        ACCUSED_TEL_ONE,ACCUSED_REGION_NAME,CREATE_DATE
+                        FROM petition_accused_info WHERE to_char(CREATE_DATE,'yyyy-MM-dd') >= #{dateTime}
             ) a where a.yy &lt;= 1
         ) b where b.rn >= #{pageStart} and b.rn &lt;= #{pageEnd}
     </select>
