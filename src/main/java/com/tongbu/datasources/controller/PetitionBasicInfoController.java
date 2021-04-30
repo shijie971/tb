@@ -46,7 +46,7 @@ public class PetitionBasicInfoController {
      */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private static final Integer LIMIT = 1000;
+    private static final Integer LIMIT = 100;
 
     @Scheduled(cron = "${cron.msg}")
     public void taskRun() {
@@ -91,6 +91,52 @@ public class PetitionBasicInfoController {
         } catch (Exception e) {
             logger.error("同步异常", e);
             return;
+        }
+    }
+
+    @RequestMapping("/api")
+    public String api(){
+        try {
+            //查询同步任务是否开启
+            Task task = taskService.findTask("petition_basic_info");
+            if(task == null || "0".equals(task.getStatus())){
+                logger.info("未查询到定时任务或者定时任务未开启");
+                return "未查询到定时任务或者定时任务未开启";
+            }else {
+                int row = 0;
+                Date nowTime = new Date();
+                String date = null;
+                if (task.getTime() != null) {
+                    date = DateUtil.getDateYMDHMSS(task.getTime());
+                }
+                // 获取读数据源同步数据总数
+                Integer count = dbPetitionBasicInfoService.findRecordCount(date);
+                if(count == 0){
+                    // 更新定时任务同步时间戳
+                    task.setTime(nowTime);
+                    taskService.updateRecord(task);
+                    return "未查询到数据";
+                }
+                int pageSize = LIMIT;
+                int pageNum = count % pageSize == 0 ? count / pageSize : count / pageSize + 1;
+                for (int i = 0; i < pageNum; i += LIMIT) {
+                    int pageStart = i * pageSize;
+                    int pageEnd = (i + 1) * pageSize;
+                    List<Petition_Basic_Info> list = dbPetitionBasicInfoService.findRecordDetails(date,pageStart,pageEnd);
+                    for(Petition_Basic_Info data : list){
+                        row += petitionBasicInfoService.insertOrUpdate(data);
+                    }
+                }
+                // 更新定时任务时间戳
+                logger.info("获取同步数据总条数：" + count + "条 , " + row + "条：同步完成");
+                // 更新定时任务同步时间戳
+                task.setTime(nowTime);
+                taskService.updateRecord(task);
+                return "同步完成";
+            }
+        } catch (Exception e) {
+            logger.error("同步异常", e);
+            return "同步异常";
         }
     }
 }

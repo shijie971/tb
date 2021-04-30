@@ -31,6 +31,24 @@ public class Petition_Basic_Info {
     private String AGENT_PERSON_NAME;
     private String END_FLAG;
     private String ARCHIVE_FLAG;
+    private String ACCUSER_ANONYMOUS_FLAG;
+    private String ACCUSER_CARD_ID;
+    private String ACCUSER_NAME;
+    private String ACCUSER_TEL_ONE;
+    private String ACCUSER_WORK_UNIT;
+    private String ACCUSED_NAME;
+    private String ACCUSED_POSITION_NAME;
+    private String ACCUSED_CLASS_NAME;
+    private String ACCUSED_WORK_UNIT;
+    private String ACCUSED_WORK_TYPE_NAME;
+    private String ACCUSED_TEL_ONE;
+    private String ACCUSED_REGION_NAME;
+    private String ISSUE_TYPE_CODE;
+    private String ISSUE_TYPE_NAME;
+    private String ISSUE_CONTENT;
+    private String KEY_WORD_NAME;
+    private String GROUP_FLAG;
+    private String FROM_REGION_NAME;
     private Date CREATE_DATE;
     private Date MODIFY_DATE;
 }

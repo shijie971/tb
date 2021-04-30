@@ -4,17 +4,37 @@
 
         <!--查询总记录数-->
         <select id="findRecordCount" resultType="java.lang.Integer">
-            SELECT COUNT(1) FROM petition_basic_info WHERE to_char(MODIFY_DATE,'yyyy-MM-dd') >= #{dateTime}
+            select count(1) from PETITION_BASIC_INFO a
+            left join PETITION_ACCUSER_INFO b on a.PETITION_NO = b.PETITION_NO
+            left join PETITION_ACCUSED_INFO c on a.PETITION_NO = c.PETITION_NO
+            left join PETITION_ISSUE_INFO d on a.PETITION_NO = d.PETITION_NO
+            left join KEY_WORD_INFO e on a.PETITION_NO = e.PETITION_NO
+            left join PETITION_TRANS_DEAL_INFO f on a.PETITION_NO = f.PETITION_NO
+            where to_char(a.PETITION_DATE,'yyyy-MM-dd') >= #{dateTime};
         </select>
         <!--查询详情-->
         <select id="findRecordDetails" resultType="com.tongbu.datasources.model.db.Petition_Basic_Info">
-            SELECT * FROM (
-                SELECT
-                    OID,PETITION_NO,PETITION_DATE,PETITION_TYPE_NAME,PETITION_SOURCE_NAME,PETITION_CLASS_NAME,
-                    ISSUE_REGION_CODE,SUB_ISSUE_REGION_CODE,SUB_ISSUE_REGION_NAME,DEAL_TYPE_NAME,FIRST_ACCUSER,
-                    FIRST_ACCUSED,REPEAT_FLAG,AGENT_PERSON_NAME,END_FLAG,ARCHIVE_FLAG,MODIFY_DATE,CREATE_DATE
-                    rownumber() over (ORDER BY PETITION_NO) AS rn FROM petition_basic_info
-                    WHERE to_char(MODIFY_DATE,'yyyy-MM-dd') >= #{dateTime}
-            ) AS b WHERE b.rn >= #{pageStart} AND b.rn &lt;= #{pageEnd}
+            with f_petition_info as (
+            select
+            a.PETITION_NO,a.OID,a.CREATE_DATE,a.PETITION_DATE,a.PETITION_TYPE_NAME,
+            a.PETITION_SOURCE_NAME,a.PETITION_CLASS_NAME,a.ISSUE_REGION_CODE,
+            a.SUB_ISSUE_REGION_CODE,a.SUB_ISSUE_REGION_NAME,a.DEAL_TYPE_NAME,
+            a.FIRST_ACCUSER,a.FIRST_ACCUSED,a.AGENT_PERSON_NAME,a.END_FLAG,a.ARCHIVE_FLAG,
+            b.ACCUSER_ANONYMOUS_FLAG,b.ACCUSER_CARD_ID,b.ACCUSER_NAME,b.ACCUSER_TEL_ONE,
+            b.ACCUSER_WORK_UNIT,c.ACCUSED_NAME,c.ACCUSED_POSITION_NAME,c.ACCUSED_CLASS_NAME,
+            c.ACCUSED_WORK_UNIT,c.ACCUSED_WORK_TYPE_NAME,c.ACCUSED_TEL_ONE,c.ACCUSED_REGION_NAME,
+            d.ISSUE_TYPE_CODE,d.ISSUE_TYPE_NAME,d.ISSUE_CONTENT,e.KEY_WORD_NAME,f.FROM_REGION_NAME
+            from PETITION_BASIC_INFO a
+            left join PETITION_ACCUSER_INFO b on a.PETITION_NO = b.PETITION_NO
+            left join PETITION_ACCUSED_INFO c on a.PETITION_NO = c.PETITION_NO
+            left join PETITION_ISSUE_INFO d on a.PETITION_NO = d.PETITION_NO
+            left join KEY_WORD_INFO e on a.PETITION_NO = e.PETITION_NO
+            left join PETITION_TRANS_DEAL_INFO f on a.PETITION_NO = f.PETITION_NO
+            where to_char(a.PETITION_DATE,'yyyy-MM-dd') >= #{dateTime}
+            order by a.PETITION_DATE asc
+            ),
+            f_limit as (
+                select a.*,rownumber() over (order by a.PETITION_DATE asc) as rn from f_petition_info a
+            )select * from f_limit where rn >= #{pageStart} and rn &lt;= #{pageEnd};
         </select>
 </mapper>

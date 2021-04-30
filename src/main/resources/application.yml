@@ -35,6 +35,7 @@ mybatis:
   configuration:
     call-setters-on-nulls: true
     return-instance-for-empty-row: true
+    map-underscore-to-camel-case: false
 logging:
   level:
     com.example.datasources.mapper: DEBUG
